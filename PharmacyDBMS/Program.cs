@@ -18,6 +18,8 @@ builder.Services.AddSingleton<WeatherForecastService>();
 // create the database context
 builder.Services.AddDbContextFactory<PharmacyContext>(options => options.UseSqlite(connectionString));
 
+// allowing ProductServices to be accessed by the front end
+builder.Services.AddTransient<PharmacyDBMS.Services.ProductServices>();
 
 var app = builder.Build();
 

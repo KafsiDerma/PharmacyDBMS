@@ -1,4 +1,7 @@
 ﻿@page "/"
+@using PharmacyDBMS.Services
+@using PharmacyDBMS.Data
+@inject ProductServices productService;
 
 <PageTitle>Index</PageTitle>
 
@@ -6,3 +9,31 @@
 
 Welcome to your new app.
 
+<EditForm Model="@product" OnValidSubmit="HandleAddProduct"> 
+    <label for="productIDInput">productID</label>
+    <InputNumber prodId = "productIDInput" @bind-Value="@product.productID"></InputNumber>
+
+    <label for="productName">name</label>
+    <InputText prodName = "productNameInput" @bind-Value="@product.name"></InputText>
+
+    <label for="stockAmountInput">stockAmount</label>
+    <InputNumber stockId="stockAmountInput" @bind-Value="@product.stockAmount"></InputNumber>
+
+    <label for="priceInput">price</label>
+    <InputNumber priceId="priceInput" @bind-Value="@product.price"></InputNumber>
+
+    <label for="discountInput">discount</label>
+    <InputNumber discountId="discountInput" @bind-Value="@product.discount"></InputNumber>
+    <button type="submit" class="ourButtons">Add Product</button>
+</EditForm>
+
+@code {
+    Product product = new Product();
+
+    // to deal with the add product button  
+    public void HandleAddProduct(EditContext editContext)
+    {
+        var newProduct = (Product)editContext.Model;
+        productService.AddProduct(newProduct);
+    }
+}
