@@ -34,6 +34,7 @@ namespace PharmacyDBMS.Pages
                 // Hash the password before adding the employee
                 string hashedPassword = BCrypt.Net.BCrypt.HashPassword(NewEmployee.HashedPassword);
                 NewEmployee.HashedPassword = hashedPassword;
+                
 
                 _context?.Employees.Add(NewEmployee);
                 _context?.SaveChangesAsync();

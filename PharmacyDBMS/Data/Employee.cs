@@ -10,9 +10,12 @@ namespace PharmacyDBMS.Data
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         public string Name { get; set; }
+        [EmailAddress]
         public string? Email { get; set; }
         public string HashedPassword { get; set; }
-        public int? PhoneNumber { get; set; }
+        [Required(AllowEmptyStrings = true)]
+        [StringLength(10)]
+        public string? PhoneNumber { get; set; }
         public float Salary { get; set; }
         public int Position { get; set; }
         public string? supervisor { get; set; }

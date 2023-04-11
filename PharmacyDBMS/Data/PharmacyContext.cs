@@ -34,10 +34,11 @@ namespace PharmacyDBMS.Data
                 .HasData(
                     new Employee
                     {
-                        Id = 00001,
+                        Id = 3440,
                         Name = "admin",
                         HashedPassword = BCrypt.Net.BCrypt.HashPassword("admin"),
                         Salary = 0,
+                        PhoneNumber = "",
                         Position = 5,
                         
                     }
