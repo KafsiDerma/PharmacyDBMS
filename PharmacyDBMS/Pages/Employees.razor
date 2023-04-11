@@ -1,0 +1,79 @@
+﻿@page "/employees"
+@using Microsoft.EntityFrameworkCore
+@using PharmacyDBMS.Data
+@inject IDbContextFactory<PharmacyContext> PharmacyContextFactory;
+
+<PageTitle>Employees</PageTitle>
+
+<h1>Employees</h1>
+
+@if (@ShowCreate)
+{
+    <h3>Add a New Employee</h3>
+    <div class="row">
+        <label for="Name" class="col-4 col-form-label">Full Name</label>
+        <div class="col-8">
+            <input id="Name" name="Name" type="text" class="form-control" @bind="@NewEmployee.Name">
+        </div>
+    </div>
+    <div class="row">
+        <label for="HashedPassword" class="col-4 col-form-label">Password</label>
+        <div class="col-8">
+            <input id="HashedPassword" name="HashedPassword" type="password" class="form-control" @bind="@NewEmployee.HashedPassword">
+        </div>
+    </div>
+    <div class="row">
+        <label for="Email" class="col-4 col-form-label">Email Address</label>
+        <div class="col-8">
+            <input id="Email" name="Email" type="email" class="form-control" @bind="@NewEmployee.Email">
+        </div>
+    </div>
+    <div class="row">
+        <label for="PhoneNumber" class="col-4 col-form-label">Phone Number</label>
+        <div class="col-8">
+            <input id="PhoneNumber" name="PhoneNumber" type="text" class="form-control"
+                   placeholder="Enter phone number (e.g. 555-1234)"
+                   pattern="[0-9]{3}-[0-9]{4}"
+                   title="Phone number format: XXX-XXXX"
+                   maxlength="12"
+               @bind="@NewEmployee.PhoneNumber">
+        </div>
+    </div>
+    <div class="form-group row">
+        <label for="Position" class="col-4 col-form-label">Permission Level</label>
+        <div class="col-8">
+            <input id="Position" name="Position" type="number" class="form-control" @bind="@NewEmployee.Position">
+        </div>
+    </div>
+    <div class="form-group row">
+        <label for="Salary" class="col-4 col-form-label">Salary</label>
+        <div class="col-8">
+            <input id="Salary" name="Salary" type="number" class="form-control" @bind="@NewEmployee.Salary">
+        </div>
+    </div>
+    <div class="form-group row">
+        <label for="supervisor" class="col-4 col-form-label">Supervisor</label>
+        <div class="col-8">
+            <input id="supervisor" name="supervisor" type="text" class="form-control" @bind="@NewEmployee.supervisor">
+        </div>
+    </div>
+    <div class="form-group row">
+        <div class="offset-4 col-8">
+            <button name="submit" type="submit" class="btn btn-primary" @onclick="InsertNewEmployee">Submit</button>
+        </div>
+    </div>
+}
+else
+{
+
+    <div class="form-group row">
+        <div class="offset-4 col-8">
+            <button name="submit" type="submit" class="btn btn-primary" @onclick="ShowCreateForm">Add a New Employee</button>
+        </div>
+    </div>
+
+    <p>SHOW THE LIST</p>
+
+
+}
+

@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PharmacyDBMS.Data;
 
@@ -10,9 +11,11 @@ using PharmacyDBMS.Data;
 namespace PharmacyDBMS.Migrations
 {
     [DbContext(typeof(PharmacyContext))]
-    partial class PharmacyContextModelSnapshot : ModelSnapshot
+    [Migration("20230411134519_fifth")]
+    partial class fifth
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "7.0.4");
@@ -115,7 +118,7 @@ namespace PharmacyDBMS.Migrations
                         new
                         {
                             Id = 1,
-                            HashedPassword = "$2a$10$sT0lSgPqWc/KAb4/PHkji.PM7fildLOZieG30UpOcdjM7QszXuNzq",
+                            HashedPassword = "$2a$10$qc38p8O4dmblkd3aTsQBXeYoJS2g24iCfg4NKZEO03UgRmLmTw7e.",
                             Name = "admin",
                             Position = 5,
                             Salary = 0f
