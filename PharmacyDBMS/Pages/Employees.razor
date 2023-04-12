@@ -72,8 +72,110 @@ else
         </div>
     </div>
 
-    <p>SHOW THE LIST</p>
+    @if (@ReadEmployees is not null && @ReadEmployees.Count > 0)
+    {
+        // display
+        
 
+        <div class="table-responsive">
+            <table class="table table-striped table-hover table-bordered table-light border-dark">
+                <thead>
+                    <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">PhoneNumber</th>
+                        <th scope="col">Position</th>
+                        <th scope="col">Salary</th>
+                        <th scope="col">Supervisor</th>
+                        <th scope="col">Edit</th>
+                        
+                    </tr>
+                </thead>
+                <tbody>
+
+                    @foreach (var employee in @ReadEmployees)
+                    {
+                        @if (!@EditRecord)
+                        {
+                            <tr>
+                                <th scope="row">@employee.Id</th>
+                                <td>@employee.Name</td>
+                                <td>@employee.Email</td>
+                                <td>@employee.PhoneNumber</td>
+                                <td>@employee.Position</td>
+                                <td>@employee.Salary</td>
+                                <td>@employee.supervisor</td>
+                                <td>
+                                    <button name="submit" type="submit" class="btn btn-primary" @onclick="() => ShowEditForm(employee)">Edit</button>
+                                </td>
+                                <td></td>
+                            </tr>
+                        }
+
+                        else
+                        {
+
+                            if (@EmployeeToUpdate is not null && @EmployeeToUpdate.Id == @employee.Id)
+                            {
+
+                                // password is not editable as a security measure
+                                // if you want to edit it that means you want to reverse a hash function, which is not possible because
+                                // then it will not be a hash function anymore
+                                // as such , this is a security measure, security can get in the way
+
+                                <tr>
+                                    <th scope="row">@employee.Id</th>
+                                    <td><input id="Name" name="Name" type="text" class="form-control" @bind="@EmployeeToUpdate.Name" /></td>
+                                    <td><input id="Email" name="Email" type="text" class="form-control" @bind="@EmployeeToUpdate.Email" /></td>
+                                    <td><input id="PhoneNumber" name="PhoneNumber" type="text" class="form-control" @bind="@EmployeeToUpdate.PhoneNumber" /></td>
+                                    <td><input id="Position" name="Position" type="text" class="form-control" @bind="@EmployeeToUpdate.Position" /></td>
+                                    <td> <input id="Salary" name="Salary" type="text" class="form-control" @bind="@EmployeeToUpdate.Salary" /></td>
+                                    <td> <input id="supervisor" name="supervisor" type="text" class="form-control" @bind="@EmployeeToUpdate.supervisor" /></td>
+                                    <td> <button name="submit" type="submit" class="btn btn-primary" @onclick="@EditEmployee">Save</button></td>
+                                    <td>
+                                        <button name="submit" type="submit" class="btn btn-primary" @onclick="() => DeleteEmployee(employee)">Delete</button>
+                                    </td>
+                                </tr>
+
+
+                            }
+                            else
+                            {
+                                <tr>
+                                    <th scope="row">@employee.Id</th>
+                                    <td>@employee.Name</td>
+                                    <td>@employee.Email</td>
+                                    <td>@employee.PhoneNumber</td>
+                                    <td>@employee.Position</td>
+                                    <td>@employee.Salary</td>
+                                    <td>@employee.supervisor</td>
+                                    <td>
+                                        <button name="submit" type="submit" class="btn btn-primary" @onclick="() => ShowEditForm(employee)">Edit</button>
+                                    </td>
+                                    <td></td>
+                                </tr>
+
+
+                            }
+
+
+
+
+
+
+
+                        }
+
+            }
+                </tbody>
+            </table>
+        </div>
+
+    }
 
 }
+
+
+
 
