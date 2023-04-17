@@ -14,6 +14,6 @@ namespace PharmacyDBMS.Data
         [ForeignKey("Doctor")]
         public int DoctorMLNum { get; set; }
         [ForeignKey("Product")]
-        public int ProductID { get; set; }
+        public Product ProductID { get; set; }
     }
 }

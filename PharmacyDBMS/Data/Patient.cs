@@ -12,5 +12,7 @@ namespace PharmacyDBMS.Data
         public int PhoneNumber { get; set; }
         [ForeignKey("InsuranceAgency")]
         public int ID { get; set; }
+
+        public ICollection<Prescription> Prescriptions { get; set; }
     }
 }
