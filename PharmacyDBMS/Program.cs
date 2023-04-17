@@ -13,7 +13,7 @@ var connectionString = builder.Configuration.GetConnectionString("PharmacyDataba
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
-builder.Services.AddSingleton<WeatherForecastService>();
+
 
 // create the database context
 builder.Services.AddDbContextFactory<PharmacyContext>(options => options.UseSqlite(connectionString));

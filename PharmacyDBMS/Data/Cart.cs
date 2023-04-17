@@ -9,10 +9,10 @@ namespace PharmacyDBMS.Data
         [Key]
         public int Id { get; set; }
         public float total_price { get; set; }
-        [ForeignKey("Patient")]
-        public int healthcardnum { get; set; }
-        [ForeignKey("Employee")]
-        public int Cashierid { get; set; }
+        
+        public Patient healthcardnum { get; set; }
+        
+        public Employee Cashierid { get; set; }
         public string Receipt { get; set; }
 
     }

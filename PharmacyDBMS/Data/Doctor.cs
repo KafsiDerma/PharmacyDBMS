@@ -12,5 +12,7 @@ namespace PharmacyDBMS.Data
         public string? email { get; set; }
 
 
+        public ICollection<Prescription> Prescriptions { get; set; }
+
     }
 }

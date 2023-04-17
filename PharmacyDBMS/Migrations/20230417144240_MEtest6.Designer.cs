@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PharmacyDBMS.Data;
 
@@ -10,9 +11,11 @@ using PharmacyDBMS.Data;
 namespace PharmacyDBMS.Migrations
 {
     [DbContext(typeof(PharmacyContext))]
-    partial class PharmacyContextModelSnapshot : ModelSnapshot
+    [Migration("20230417144240_MEtest6")]
+    partial class MEtest6
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "7.0.4");
@@ -121,7 +124,7 @@ namespace PharmacyDBMS.Migrations
                         new
                         {
                             Id = 3440,
-                            HashedPassword = "$2a$10$wlZxyqXctTc5gYLNfiblSOMphVximB14WX/Nwr9VKV75mutV0Zbtm",
+                            HashedPassword = "$2a$10$5AQFQk6meAoRlV2MLo4X2OCKEXkiIxzeUCebc3.tTFNWWLEr.lfTa",
                             Name = "admin",
                             PhoneNumber = "",
                             Position = 5,
@@ -188,7 +191,7 @@ namespace PharmacyDBMS.Migrations
                     b.Property<int>("PatientID")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("Product")
+                    b.Property<int>("ProductID")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("prescriptionNum");
@@ -197,7 +200,7 @@ namespace PharmacyDBMS.Migrations
 
                     b.HasIndex("PatientID");
 
-                    b.HasIndex("Product")
+                    b.HasIndex("ProductID")
                         .IsUnique();
 
                     b.ToTable("Prescriptions");
@@ -300,13 +303,11 @@ namespace PharmacyDBMS.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("PharmacyDBMS.Data.Product", "ProductID")
+                    b.HasOne("PharmacyDBMS.Data.Product", null)
                         .WithOne("Prescription")
-                        .HasForeignKey("PharmacyDBMS.Data.Prescription", "Product")
+                        .HasForeignKey("PharmacyDBMS.Data.Prescription", "ProductID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("ProductID");
                 });
 
             modelBuilder.Entity("PharmacyDBMS.Data.Supplier", b =>

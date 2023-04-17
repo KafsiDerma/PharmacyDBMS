@@ -14,7 +14,8 @@ namespace PharmacyDBMS.Data
         [Range(0, float.MaxValue)]
         public float price { get; set; }
 
-
+        
+        public Supplier Supplier { get; set; }
 
 
 

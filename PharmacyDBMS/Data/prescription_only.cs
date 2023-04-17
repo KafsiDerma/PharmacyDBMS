@@ -12,5 +12,7 @@ namespace PharmacyDBMS.Data
         public String Scientific_Name { get; set; }
 
         public String Guide { get; set; }
+
+        public Product Product { get; set; }
     }
 }
