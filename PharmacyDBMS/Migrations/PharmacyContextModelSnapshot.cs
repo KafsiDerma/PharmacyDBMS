@@ -121,7 +121,7 @@ namespace PharmacyDBMS.Migrations
                         new
                         {
                             Id = 3440,
-                            HashedPassword = "$2a$10$w6BT9DIqKiwRoV9pqcgiW.qTXY1x6mvjpkK9RuKCBE8IcK4HRKCsG",
+                            HashedPassword = "$2a$10$CjfvdpLsrnXV8Pva1ZYFMOlVaDu//8GMTugF0HQMZvXcBOfVAjW4S",
                             Name = "admin",
                             PhoneNumber = "",
                             Position = 5,
@@ -223,17 +223,7 @@ namespace PharmacyDBMS.Migrations
 
                     b.HasKey("productID");
 
-                    b.ToTable("Product", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            productID = 1001,
-                            discount = 1.0,
-                            name = "adminProduct",
-                            price = 5.9900000000000002,
-                            stockAmount = 4
-                        });
+                    b.ToTable("Product");
                 });
 
             modelBuilder.Entity("PharmacyDBMS.Data.Supplier", b =>
@@ -257,16 +247,7 @@ namespace PharmacyDBMS.Migrations
                     b.HasIndex("productID")
                         .IsUnique();
 
-                    b.ToTable("Supplier", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            BusinessID = 101,
-                            BusinessName = "adminShop",
-                            phonenumber = 911,
-                            productID = 1001
-                        });
+                    b.ToTable("Suppliers");
                 });
 
             modelBuilder.Entity("PharmacyDBMS.Data.prescription_only", b =>
@@ -287,8 +268,6 @@ namespace PharmacyDBMS.Migrations
                         .HasColumnType("TEXT");
 
                     b.HasKey("id");
-
-                    b.HasIndex("ProductId");
 
                     b.ToTable("Prescriptions_only");
                 });
@@ -340,17 +319,6 @@ namespace PharmacyDBMS.Migrations
                         .HasForeignKey("PharmacyDBMS.Data.Supplier", "productID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("PharmacyDBMS.Data.prescription_only", b =>
-                {
-                    b.HasOne("PharmacyDBMS.Data.Product", "Product")
-                        .WithMany()
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("PharmacyDBMS.Data.Doctor", b =>

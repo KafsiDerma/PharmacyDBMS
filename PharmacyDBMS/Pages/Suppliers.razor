@@ -1,0 +1,163 @@
+﻿@page "/suppliers"
+@using Microsoft.EntityFrameworkCore
+@using PharmacyDBMS.Data
+@inject IDbContextFactory<PharmacyContext> PharmacyContextFactory;
+
+<h3>Suppliers</h3>
+@if (@ShowCreate)
+{
+    <div>
+        <input type="text" placeholder="Enter Supplier Name" @bind="findName" />
+        <button class="btn btn-primary" @onclick="FindSuppliers">Find Supplier</button>
+
+    </div>
+
+    <h3>Add a New Supplier</h3>
+    <div class="row">
+        <label for="id" class="col-4 col-form-label">Business ID</label>
+        <div class="col-8">
+            <input id="id" name="id" type="number" class="form-control" @bind="@NewSupplier.BusinessID">
+        </div>
+    </div>
+
+    <div class="row">
+        <label for="name" class="col-4 col-form-label">Business Name</label>
+        <div class="col-8">
+            <input id="name" name="name" type="text" class="form-control" @bind="@NewSupplier.BusinessName">
+        </div>
+    </div>
+
+    <div class="row">
+        <label for="PhoneNumber" class="col-4 col-form-label">Phone Number</label>
+        <div class="col-8">
+            <input id="PhoneNumber" name="PhoneNumber" type="text" class="form-control"
+                   placeholder="Enter phone number (e.g. 555-123-4567)"
+                   pattern="[0-9]{3}-[0-9]{4}"
+                   title="Phone number format: XXX-XXX-XXXX"
+                   maxlength="12"
+               @bind="@NewSupplier.phonenumber">
+        </div>
+
+    </div>
+    <div class="form-group row">
+        <label for="ProductID" class="col-4 col-form-label">ProductID</label>
+        <div class="col-8">
+            <input id="PID" name="PID" type="number" class="form-control" @bind="@NewSupplier.productID">
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <div class="offset-6 col-8">
+            <button name="submit" type="submit" class="btn btn-primary" @onclick="InsertNewSupplier">Submit</button>
+        </div>
+    </div>
+
+}
+else
+{
+    // searchbar
+    <div>
+        <input type="text" placeholder="Enter Supplier Name" @bind="findName" />
+        <button class="btn btn-primary" @onclick="FindSuppliers">Find Suppliers</button>
+        <button class="btn btn-primary" @onclick="ShowSuppliers">Clear Search</button>
+    </div>
+
+    <div class="form-group row">
+        <div class="offset-8 col-9">
+            <button name="submit" type="submit" class="btn btn-primary" @onclick="ShowCreateForm">Add a New Supplier</button>
+        </div>
+    </div>
+
+    @if (@ReadSuppliers is not null && @ReadSuppliers.Count > 0)
+    {
+        // display
+
+
+        <div class="table-responsive">
+            <table class="table table-striped table-hover table-bordered table-light border-dark">
+                <thead>
+                    <tr>
+                        <th scope="col">BusinessID</th>
+                        <th scope="col">Business Name</th>
+                        <th scope="col">phoneNumber</th>
+                        <th scope="col">ProductID</th>
+                        <th scope="col">Edit</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+
+                    @foreach (var supplier in @ReadSuppliers)
+                    {
+                        @if (!@EditRecord)
+                        {
+                            <tr>
+                                <th scope="row">@supplier.BusinessID</th>
+                                <td>@supplier.BusinessName</td>
+                                <td>@supplier.phonenumber</td>
+                                <td>@supplier.productID</td>
+                                <td>
+                                    <button name="submit" type="submit" class="btn btn-primary" @onclick="() => ShowEditForm(supplier)">Edit</button>
+                                </td>
+                                <td></td>
+                            </tr>
+                        }
+
+                        else
+                        {
+
+                            if (@SupplierToUpdate is not null && SupplierToUpdate.BusinessID == @supplier.BusinessID)
+                            {
+
+                                
+
+                                <tr>
+                                    <th scope="row">@supplier.BusinessID</th>
+                                    <td><input id="ID" name="ID" type="number" class="form-control" @bind="@SupplierToUpdate.BusinessID" /></td>
+                                    <td><input id="name" name="name" type="text" class="form-control" @bind="@SupplierToUpdate.BusinessName" /></td>
+                                    <td><input id="phoneNumber" name="phoneNumber" type="text" class="form-control" @bind="@SupplierToUpdate.phonenumber" /></td>
+                                    <td><input id="pid" name="productID" type="number" class="form-control" @bind="@SupplierToUpdate.productID" /></td>
+                                    <td> <button name="submit" type="submit" class="btn btn-primary" @onclick="@EditSupplier">Save</button></td>
+                                    <td>
+                                        <button name="submit" type="submit" class="btn btn-primary" @onclick="() => DeleteSupplier(supplier)">Delete</button>
+                                    </td>
+                                </tr>
+
+
+                            }
+                            else
+                            {
+                                <tr>
+                                    <th scope="row">@supplier.BusinessID</th>
+                                    <td>@supplier.BusinessName</td>
+                                    <td>@supplier.phonenumber</td>
+                                    <td>@supplier.productID</td>
+                                    <td>
+                                        <button name="submit" type="submit" class="btn btn-primary" @onclick="() => ShowEditForm(supplier)">Edit</button>
+                                    </td>
+                                    <td></td>
+                                </tr>
+
+
+                            }
+
+
+
+
+
+
+
+                        }
+
+                    }
+                </tbody>
+            </table>
+        </div>
+
+    }
+
+}
+
+@code {
+
+}
