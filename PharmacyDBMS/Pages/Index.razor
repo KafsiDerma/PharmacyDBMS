@@ -1,26 +1,51 @@
 ﻿@page "/"
 @using Microsoft.EntityFrameworkCore
 @using PharmacyDBMS.Data
+@inject NavigationManager NavigationManager
 @inject IDbContextFactory<PharmacyContext> PharmacyContextFactory;
 <PageTitle>Index</PageTitle>
 
 <h1>Login</h1>
 
 
-
-<div class="row">
-    <label for="Name" class="col-4 col-form-label">Employee Name</label>
-    <div class="col-8">
-        <input id="Name" name="Name" type="text" class="form-control" />
-    </div>
-</div>
-
 <div class="row">
     <label for="Password" class="col-4 col-form-label">Password</label>
     <div class="col-8">
-        <input id="Pass" name="Pass" type="password" class="form-control" />
-    </div>
+        <input id="Pass" name="Pass" type="password" class="form-control" @bind="password" />
         </div>
+</div>
+<div class="row">
+        <label for="Number" class="col-4 col-form-label">Employee ID</label>
+        <div class="col-8">
+            <input id="EmployeeID" name="EmployeeID" type="number" class="form-control" @bind="InputValue" />
+ 
+                @if (InputValue > 800000000)
+                {
+                    @if (password.Contains("login123"))
+                    {
+                        <h2> Welcome, Supervisor </h2>
+                    }
+                }
 
+                @if (InputValue > 600000000 && InputValue < 800000000)
+                {
+                    @if (password.Contains("login123"))
+                    {
+                        <h2> Welcome, Pharmacist </h2>
+                    }
+                }
+
+                @if (InputValue < 600000000 && InputValue > 100000000)
+                {
+                    @if (password.Contains("login123"))
+                    {
+                        <h2> Welcome, Cashier </h2>
+                    }
+
+                }
+        <button name="submit" type="submit" class="col-8">Login</button>
+        </div>
+  
+</div>
 
 
