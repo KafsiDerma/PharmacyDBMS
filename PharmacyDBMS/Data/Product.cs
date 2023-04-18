@@ -10,9 +10,9 @@ namespace PharmacyDBMS.Data
         [Range(0, int.MaxValue)]
         public int stockAmount { get; set; }
         [Range(0.0, 1.0)]
-        public float discount { get; set; }
-        [Range(0, float.MaxValue)]
-        public float price { get; set; }
+        public double discount { get; set; }  // starts off as 1, basically gets multiplied by price to get the discount
+        [Range(0, double.MaxValue)]
+        public double price { get; set; }
 
         
         public Supplier Supplier { get; set; }
