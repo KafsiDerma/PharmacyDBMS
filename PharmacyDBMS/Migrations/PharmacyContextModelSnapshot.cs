@@ -121,7 +121,7 @@ namespace PharmacyDBMS.Migrations
                         new
                         {
                             Id = 3440,
-                            HashedPassword = "$2a$10$wlZxyqXctTc5gYLNfiblSOMphVximB14WX/Nwr9VKV75mutV0Zbtm",
+                            HashedPassword = "$2a$10$w6BT9DIqKiwRoV9pqcgiW.qTXY1x6mvjpkK9RuKCBE8IcK4HRKCsG",
                             Name = "admin",
                             PhoneNumber = "",
                             Position = 5,
