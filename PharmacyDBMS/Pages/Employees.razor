@@ -7,8 +7,15 @@
 
 <h1>Employees</h1>
 
+
 @if (@ShowCreate)
 {
+    <div>
+        <input type="text" placeholder="Enter Employee Name" @bind="findName" />
+        <button class="btn btn-primary" @onclick="FindEmployees">Find Employee</button>
+        
+    </div>
+
     <h3>Add a New Employee</h3>
     <div class="row">
         <label for="Name" class="col-4 col-form-label">Full Name</label>
@@ -62,9 +69,16 @@
             <button name="submit" type="submit" class="btn btn-primary" @onclick="InsertNewEmployee">Submit</button>
         </div>
     </div>
+
 }
 else
 {
+    // searchbar 
+    <div>
+        <input type="text" placeholder="Enter Employee Name" @bind="findName" />
+        <button class="btn btn-primary" @onclick="FindEmployees">Find Employee</button>
+        <button class="btn btn-primary" @onclick="ShowEmployees">Clear Search</button>
+    </div>
 
     <div class="form-group row">
         <div class="offset-4 col-8">
@@ -176,6 +190,7 @@ else
 
 }
 
-
-
+@code {
+  
+}
 

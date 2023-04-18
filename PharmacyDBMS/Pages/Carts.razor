@@ -1,0 +1,59 @@
+﻿@page "/carts"
+@using Microsoft.EntityFrameworkCore
+@using PharmacyDBMS.Data
+@inject IDbContextFactory<PharmacyContext> PharmacyContextFactory;
+
+<PageTitle>Carts</PageTitle>
+
+@if (@ShowCreate)
+{
+    <h3> Create New Cart </h3>
+
+    <div class="row">
+
+        <label for="Cashierid" class="col-4 col-form-label">Cashier Id</label>
+        <div class="col-8">
+            <input id="Cashierid" name="Cashierid" type="text" class="form-control" @bind="@NewCart.Cashierid">
+        </div>
+    </div>
+
+   
+    <div class="row">
+        <label for="Id" class="col-4 col-form-label">Id</label>
+        <div class="col-8">
+            <input id="Id" name="Id" type="number" class="form-control" @bind="@NewCart.Id">
+        </div>
+    </div>
+
+    <div class="row">
+        <label for="total_price" class="col-4 col-form-label">Total Price</label>
+        <div class="col-8">
+            <input id="total_price" name="total_price" type="number" class="form-control" @bind="@NewCart.total_price">
+        </div>
+    </div>
+
+    <div class="row">
+        <label for="Receipt" class="col-4 col-form-label">Receipt</label>
+        <div class="col-8">
+            <input id="Receipt" name="Receipt" type="text" class="form-control" @bind="@NewCart.Receipt">
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <div class="offset-4 col-8">
+            <button name="submit" type="submit" class="btn btn-primary" @onclick="InsertNewCart">Submit</button>
+        </div>
+    </div>
+
+
+}
+else
+{
+    <div class="form-group row">
+        <div class="offset-4 col-8">
+            <button name="submit" type="submit" class="btn btn-primary" @onclick="ShowCreateForm">Create a new cart</button>
+        </div>
+    </div>
+
+    <p>SHOW TABLE</p>
+}
