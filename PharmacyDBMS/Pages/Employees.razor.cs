@@ -1,6 +1,11 @@
 ﻿using PharmacyDBMS.Data;
 using BCrypt.Net;
 using Microsoft.EntityFrameworkCore;
+using System.Diagnostics;
+using Microsoft.AspNetCore.Mvc.Diagnostics;
+using Microsoft.AspNetCore.Components.Web.Virtualization;
+using System.ComponentModel.DataAnnotations;
+using SQLitePCL;
 
 namespace PharmacyDBMS.Pages
 {
@@ -24,8 +29,26 @@ namespace PharmacyDBMS.Pages
         // list to fill for reading
         public List<Employee>? ReadEmployees { get; set; }
         // temporary tuple holder to edit an entry
+
+        public List<Employee>? FilterEmployees { get; set; }
+        // for filtering our employees
+        public string findName;
         public Employee? EmployeeToUpdate { get; set; }
         
+        // creating a list for the search
+        /*public List <Employee> GetUniqueEmployees(int Id)
+        {
+            return _context.Employees.Where(x => x.Id == Id).ToList();
+        }
+
+        public int IdEmployee { get; set; }
+        void FindEmployee()
+        {
+            IdEmployee = NewEmployee.Id;
+            NewEmployee = Employees.GetUniqueEmployees(IdEmployee);
+        }
+        
+        */
 
 
         // form to add new employees
@@ -69,11 +92,72 @@ namespace PharmacyDBMS.Pages
                 // u can edit to make it into a specific SQL query
                 ReadEmployees = await _context.Employees.ToListAsync();
             }
+
             //commenting this out, we dispose later , if your table is not editable then just dispose here
             //if (_context is not null) await _context.DisposeAsync();
         }
 
+        public async Task FindEmployees()
+        {
+            _context ??= await PharmacyContextFactory.CreateDbContextAsync();
 
+            if (_context is not null)
+            {
+                // if the name contains findName
+                // referencing https://stackoverflow.com/questions/32641664/how-to-search-data-from-database-using-linq
+                ReadEmployees =_context.Employees.Where(e => e.Name.Contains(findName)).ToList();
+
+            }
+
+            //_context ??= await PharmacyContextFactory.CreateDbContextAsync();
+        }
+
+        public async Task Login()
+        {
+            _context ??= await PharmacyContextFactory.CreateDbContextAsync();
+
+            if (_context != null)
+            {
+                // searching for the name in the database
+                ReadEmployees = _context.Employees.Where(e => e.Name.Contains(findName)).ToList();
+
+
+                // if the name exists in the database.
+            }
+        }
+
+        //_context ??= await PharmacyContextFactory.CreateDbContextAsync();
+
+        /*
+        public async Task FindEmployees()
+        {
+            _context ??= await PharmacyContextFactory.CreateDbContextAsync();
+
+            if (_context is not null)
+            {
+
+                var query = from employee in _context.Employees.AsEnumerable()
+
+                            where employee.Id == 0
+                            select new
+                            {
+                                Id = employee.Id,
+                                Name = employee.Name,
+                                Email = employee.Email,
+                                Salary = employee.Salary,
+                                Position = employee.Position,
+                                supervisor = employee.supervisor,
+                            };
+                // u can edit to make it into a specific SQL query
+                //ReadEmployees = await _context.Employees.IgnoreQueryFilters;
+                //FilterEmployees = await _context.Employees.Where(Id => Id);
+
+                //commenting this out, we dispose later , if your table is not editable then just dispose here
+                //if (_context is not null) await _context.DisposeAsync();
+            }
+
+        }
+        */
         // edit employees
 
         public async Task ShowEditForm(Employee ourEmployee)
@@ -124,5 +208,6 @@ namespace PharmacyDBMS.Pages
 
         }
 
+  
     }
 }

@@ -1,0 +1,169 @@
+﻿@page "/doctors"
+@using Microsoft.EntityFrameworkCore
+@using PharmacyDBMS.Data
+@inject IDbContextFactory<PharmacyContext> PharmacyContextFactory;
+
+<h3>Doctors</h3>
+@if (@ShowCreate)
+{
+    <div>
+        <input type="text" placeholder="Enter Doctor Name" @bind="findName" />
+        <button class="btn btn-primary" @onclick="FindDoctors">Find Doctor</button>
+
+    </div>
+
+    <h3>Add a New Doctor</h3>
+    <div class="row">
+        <label for="Name" class="col-4 col-form-label">Full Name</label>
+        <div class="col-8">
+            <input id="Name" name="Name" type="text" class="form-control" @bind="@NewDoctor.name">
+        </div>
+    </div>
+  
+    <div class="row">
+        <label for="Email" class="col-4 col-form-label">Email Address</label>
+        <div class="col-8">
+            <input id="Email" name="Email" type="email" class="form-control" @bind="@NewDoctor.email">
+        </div>
+    </div>
+
+    <div class="row">
+        <label for="PhoneNumber" class="col-4 col-form-label">Phone Number</label>
+        <div class="col-8">
+            <input id="PhoneNumber" name="PhoneNumber" type="text" class="form-control"
+                   placeholder="Enter phone number (e.g. 555-123-4567)"
+                   pattern="[0-9]{3}-[0-9]{4}"
+                   title="Phone number format: XXX-XXX-XXXX"
+                   maxlength="12"
+               @bind="@NewDoctor.phoneNumber">
+        </div>
+
+    </div>
+    <div class="form-group row">
+        <label for="Medical_License" class="col-4 col-form-label">Medical License Number</label>
+        <div class="col-8">
+            <input id="Medical_License" name="Medical_License" type="number" class="form-control" @bind="@NewDoctor.Medical_License">
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <div class="offset-6 col-8">
+            <button name="submit" type="submit" class="btn btn-primary" @onclick="InsertNewDoctor">Submit</button>
+        </div>
+    </div>
+
+}
+else
+{
+    // searchbar
+    <div>
+        <input type="text" placeholder="Enter Doctor Name" @bind="findName" />
+        <button class="btn btn-primary" @onclick="FindDoctors">Find Doctor</button>
+        <button class="btn btn-primary" @onclick="ShowDoctors">Clear Search</button>
+    </div>
+
+    <div class="form-group row">
+        <div class="offset-8 col-9">
+            <button name="submit" type="submit" class="btn btn-primary" @onclick="ShowCreateForm">Add a New Doctor</button>
+        </div>
+    </div>
+
+    @if (@ReadDoctors is not null && @ReadDoctors.Count > 0)
+    {
+        // display
+
+
+        <div class="table-responsive">
+            <table class="table table-striped table-hover table-bordered table-light border-dark">
+                <thead>
+                    <tr>
+                        <th scope="col"></th>
+                        <th scope="col">Name</th>
+                        <th scope="col">email</th>
+                        <th scope="col">phoneNumber</th>
+                        <th scope="col">Medical_License</th>
+                        <th scope="col">Edit</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+
+                    @foreach (var doctor in @ReadDoctors)
+                    {
+                        @if (!@EditRecord)
+                        {
+                            <tr>
+                                <th scope="row">@doctor.Medical_License</th>
+                                <td>@doctor.name</td>
+                                <td>@doctor.email</td>
+                                <td>@doctor.phoneNumber</td>
+                                <td>@doctor.Medical_License</td>
+                                <td>
+                                    <button name="submit" type="submit" class="btn btn-primary" @onclick="() => ShowEditForm(doctor)">Edit</button>
+                                </td>
+                                <td></td>
+                            </tr>
+                        }
+
+                        else
+                        {
+
+                            if (@DoctorToUpdate is not null && DoctorToUpdate.Medical_License == @doctor.Medical_License)
+                            {
+
+                                // password is not editable as a security measure
+                                // if you want to edit it that means you want to reverse a hash function, which is not possible because
+                                // then it will not be a hash function anymore
+                                // as such , this is a security measure, security can get in the way
+
+                                <tr>
+                                    <th scope="row">@doctor.Medical_License</th>
+                                    <td><input id="name" name="Name" type="text" class="form-control" @bind="@DoctorToUpdate.name" /></td>
+                                    <td><input id="email" name="email" type="text" class="form-control" @bind="@DoctorToUpdate.email" /></td>
+                                    <td><input id="phoneNumber" name="phoneNumber" type="text" class="form-control" @bind="@DoctorToUpdate.phoneNumber" /></td>
+                                    <td><input id="Medical_License" name="Medical_License" type="text" class="form-control" @bind="@DoctorToUpdate.Medical_License" /></td>
+                                    <td> <button name="submit" type="submit" class="btn btn-primary" @onclick="@EditDoctor">Save</button></td>
+                                    <td>
+                                        <button name="submit" type="submit" class="btn btn-primary" @onclick="() => DeleteDoctor(doctor)">Delete</button>
+                                    </td>
+                                </tr>
+
+
+                            }
+                            else
+                            {
+                                <tr>
+                                    <th scope="row">@doctor.Medical_License</th>
+                                    <td>@doctor.name</td>
+                                    <td>@doctor.email</td>
+                                    <td>@doctor.phoneNumber</td>
+                                    <td>@doctor.Medical_License</td>
+                                    <td>
+                                        <button name="submit" type="submit" class="btn btn-primary" @onclick="() => ShowEditForm(doctor)">Edit</button>
+                                    </td>
+                                    <td></td>
+                                </tr>
+
+
+                            }
+
+
+
+
+
+
+
+                        }
+
+                    }
+                </tbody>
+            </table>
+        </div>
+
+    }
+
+}
+
+@code {
+
+}
