@@ -44,6 +44,40 @@ namespace PharmacyDBMS.Data
                     }
                 );
 
+            modelBuilder.Entity<Supplier>()
+               .ToTable("Supplier");
+
+            modelBuilder.Entity<Supplier>()
+                .HasData(
+                    new Supplier
+                    {
+                        BusinessID = 101,
+                        BusinessName = "adminShop",
+                        productID = 1001,
+                        phonenumber = 911,
+
+                    }
+                );
+
+            modelBuilder.Entity<Product>()
+                .ToTable("Product");
+
+            modelBuilder.Entity<Product>()
+                .HasData(
+                    new Product
+                    {
+                        productID = 1001,
+                        name = "adminProduct",
+                        stockAmount = 4,
+                        discount = 1.00,
+                        price = 5.99,
+                       // Supplier = new Supplier { BusinessID = 101 },
+         }
+                );
+
+
+            
+
 
 
 
@@ -57,7 +91,7 @@ namespace PharmacyDBMS.Data
         public DbSet<Patient> Patients { get; set; }
         public DbSet<Prescription> Prescriptions { get; set; }
         public DbSet<prescription_only> Prescriptions_only { get; set; }
-        public DbSet<Product> Products { get; set; }
+        public DbSet<Product> Product { get; set; }
         public DbSet<Supplier> Suppliers { get; set; }
 
 
