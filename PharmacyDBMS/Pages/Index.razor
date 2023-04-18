@@ -19,7 +19,7 @@
         <div class="col-8">
             <input id="EmployeeID" name="EmployeeID" type="number" class="form-control" @bind="InputValue" />
  
-                @if (InputValue > 800000000)
+                @if (InputValue > 8000)
                 {
                     @if (password.Contains("login123"))
                     {
@@ -27,7 +27,7 @@
                     }
                 }
 
-                @if (InputValue > 600000000 && InputValue < 800000000)
+                @if (InputValue > 6000 && InputValue < 8000)
                 {
                     @if (password.Contains("login123"))
                     {
@@ -35,7 +35,7 @@
                     }
                 }
 
-                @if (InputValue < 600000000 && InputValue > 100000000)
+                @if (InputValue < 6000 && InputValue > 1000)
                 {
                     @if (password.Contains("login123"))
                     {
