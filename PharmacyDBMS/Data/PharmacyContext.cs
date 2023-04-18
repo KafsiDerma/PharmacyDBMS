@@ -44,36 +44,7 @@ namespace PharmacyDBMS.Data
                     }
                 );
 
-            modelBuilder.Entity<Supplier>()
-               .ToTable("Supplier");
-
-            modelBuilder.Entity<Supplier>()
-                .HasData(
-                    new Supplier
-                    {
-                        BusinessID = 101,
-                        BusinessName = "adminShop",
-                        productID = 1001,
-                        phonenumber = 911,
-
-                    }
-                );
-
-            modelBuilder.Entity<Product>()
-                .ToTable("Product");
-
-            modelBuilder.Entity<Product>()
-                .HasData(
-                    new Product
-                    {
-                        productID = 1001,
-                        name = "adminProduct",
-                        stockAmount = 4,
-                        discount = 1.00,
-                        price = 5.99,
-                       // Supplier = new Supplier { BusinessID = 101 },
-         }
-                );
+          
 
 
             

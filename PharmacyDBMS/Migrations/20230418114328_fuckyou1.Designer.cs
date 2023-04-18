@@ -11,8 +11,8 @@ using PharmacyDBMS.Data;
 namespace PharmacyDBMS.Migrations
 {
     [DbContext(typeof(PharmacyContext))]
-    [Migration("20230417142208_MEtest3")]
-    partial class MEtest3
+    [Migration("20230418114328_fuckyou1")]
+    partial class fuckyou1
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -26,20 +26,24 @@ namespace PharmacyDBMS.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("Cashierid")
+                    b.Property<int>("CashieridId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("HealthCardNum")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Receipt")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("healthcardnum")
-                        .HasColumnType("INTEGER");
-
                     b.Property<float>("total_price")
                         .HasColumnType("REAL");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CashieridId");
+
+                    b.HasIndex("HealthCardNum");
 
                     b.ToTable("Carts");
                 });
@@ -120,7 +124,7 @@ namespace PharmacyDBMS.Migrations
                         new
                         {
                             Id = 3440,
-                            HashedPassword = "$2a$10$2eK4MT9qQwVdl6/xMofVru2q9i0bz26MdCN6DUVzFoU4KjBXIbx6u",
+                            HashedPassword = "$2a$10$jtC.ygtHJYIxuZeHdjTXn.HcibpFZBzoPi92FuLjbFMk4bd/z9e0K",
                             Name = "admin",
                             PhoneNumber = "",
                             Position = 5,
@@ -178,19 +182,25 @@ namespace PharmacyDBMS.Migrations
                     b.Property<int>("DoctorMLNum")
                         .HasColumnType("INTEGER");
 
+                    b.Property<int?>("DoctorMedical_License")
+                        .HasColumnType("INTEGER");
+
                     b.Property<DateTime>("IssueDate")
                         .HasColumnType("TEXT");
 
                     b.Property<int>("PatientID")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("ProductID")
+                    b.Property<int>("Product")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("prescriptionNum");
 
-                    b.HasIndex("ProductID")
-                        .IsUnique();
+                    b.HasIndex("DoctorMedical_License");
+
+                    b.HasIndex("PatientID");
+
+                    b.HasIndex("Product");
 
                     b.ToTable("Prescriptions");
                 });
@@ -201,14 +211,14 @@ namespace PharmacyDBMS.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<float>("discount")
+                    b.Property<double>("discount")
                         .HasColumnType("REAL");
 
                     b.Property<string>("name")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<float>("price")
+                    b.Property<double>("price")
                         .HasColumnType("REAL");
 
                     b.Property<int>("stockAmount")
@@ -216,7 +226,7 @@ namespace PharmacyDBMS.Migrations
 
                     b.HasKey("productID");
 
-                    b.ToTable("Products");
+                    b.ToTable("Product");
                 });
 
             modelBuilder.Entity("PharmacyDBMS.Data.Supplier", b =>
@@ -237,17 +247,24 @@ namespace PharmacyDBMS.Migrations
 
                     b.HasKey("SupplierID");
 
+                    b.HasIndex("productID")
+                        .IsUnique();
+
                     b.ToTable("Suppliers");
                 });
 
             modelBuilder.Entity("PharmacyDBMS.Data.prescription_only", b =>
                 {
                     b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Guide")
                         .IsRequired()
                         .HasColumnType("TEXT");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Scientific_Name")
                         .IsRequired()
@@ -258,29 +275,68 @@ namespace PharmacyDBMS.Migrations
                     b.ToTable("Prescriptions_only");
                 });
 
+            modelBuilder.Entity("PharmacyDBMS.Data.Cart", b =>
+                {
+                    b.HasOne("PharmacyDBMS.Data.Employee", "Cashierid")
+                        .WithMany()
+                        .HasForeignKey("CashieridId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("PharmacyDBMS.Data.Patient", "healthcardnum")
+                        .WithMany()
+                        .HasForeignKey("HealthCardNum")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Cashierid");
+
+                    b.Navigation("healthcardnum");
+                });
+
             modelBuilder.Entity("PharmacyDBMS.Data.Prescription", b =>
                 {
+                    b.HasOne("PharmacyDBMS.Data.Doctor", null)
+                        .WithMany("Prescriptions")
+                        .HasForeignKey("DoctorMedical_License");
+
+                    b.HasOne("PharmacyDBMS.Data.Patient", null)
+                        .WithMany("Prescriptions")
+                        .HasForeignKey("PatientID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("PharmacyDBMS.Data.Product", "ProductID")
+                        .WithMany()
+                        .HasForeignKey("Product")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ProductID");
+                });
+
+            modelBuilder.Entity("PharmacyDBMS.Data.Supplier", b =>
+                {
                     b.HasOne("PharmacyDBMS.Data.Product", null)
-                        .WithOne("Prescription")
-                        .HasForeignKey("PharmacyDBMS.Data.Prescription", "ProductID")
+                        .WithOne("Supplier")
+                        .HasForeignKey("PharmacyDBMS.Data.Supplier", "productID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("PharmacyDBMS.Data.prescription_only", b =>
+            modelBuilder.Entity("PharmacyDBMS.Data.Doctor", b =>
                 {
-                    b.HasOne("PharmacyDBMS.Data.Product", "Product")
-                        .WithMany()
-                        .HasForeignKey("id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Navigation("Prescriptions");
+                });
 
-                    b.Navigation("Product");
+            modelBuilder.Entity("PharmacyDBMS.Data.Patient", b =>
+                {
+                    b.Navigation("Prescriptions");
                 });
 
             modelBuilder.Entity("PharmacyDBMS.Data.Product", b =>
                 {
-                    b.Navigation("Prescription")
+                    b.Navigation("Supplier")
                         .IsRequired();
                 });
 #pragma warning restore 612, 618

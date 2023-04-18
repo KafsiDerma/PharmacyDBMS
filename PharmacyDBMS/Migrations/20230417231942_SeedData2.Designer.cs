@@ -241,7 +241,7 @@ namespace PharmacyDBMS.Migrations
 
             modelBuilder.Entity("PharmacyDBMS.Data.Supplier", b =>
                 {
-                    b.Property<int>("BusinessID")
+                    b.Property<int>("SupplierID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
@@ -255,7 +255,7 @@ namespace PharmacyDBMS.Migrations
                     b.Property<int>("productID")
                         .HasColumnType("INTEGER");
 
-                    b.HasKey("BusinessID");
+                    b.HasKey("SupplierID");
 
                     b.HasIndex("productID")
                         .IsUnique();

@@ -1,0 +1,163 @@
+﻿@page "/patients"
+@using Microsoft.EntityFrameworkCore
+@using PharmacyDBMS.Data
+@inject IDbContextFactory<PharmacyContext> PharmacyContextFactory;
+
+<h3>Patients</h3>
+@if (@ShowCreate)
+{
+    <div>
+        <input type="text" placeholder="Enter Patient Name" @bind="findName" />
+        <button class="btn btn-primary" @onclick="FindPatients">Find Patients</button>
+
+    </div>
+
+    <h3>Add a New Patient</h3>
+    <div class="row">
+        <label for="id" class="col-4 col-form-label">HealthCardNum</label>
+        <div class="col-8">
+            <input id="id" name="id" type="number" class="form-control" @bind="@NewPatient.HealthCardNum">
+        </div>
+    </div>
+
+    <div class="row">
+        <label for="name" class="col-4 col-form-label">PatientFullName</label>
+        <div class="col-8">
+            <input id="name" name="name" type="text" class="form-control" @bind="@NewPatient.PatientFullName">
+        </div>
+    </div>
+
+    <div class="row">
+        <label for="PhoneNumber" class="col-4 col-form-label">Phone Number</label>
+        <div class="col-8">
+            <input id="PhoneNumber" name="PhoneNumber" type="text" class="form-control"
+                   placeholder="Enter phone number (e.g. 555-123-4567)"
+                   pattern="[0-9]{3}-[0-9]{4}"
+                   title="Phone number format: XXX-XXX-XXXX"
+                   maxlength="12"
+               @bind="@NewPatient.PhoneNumber">
+        </div>
+
+    </div>
+    <div class="form-group row">
+        <label for="InsuranceAgencyID" class="col-4 col-form-label">InsuranceAgencyID</label>
+        <div class="col-8">
+            <input id="IiD" name="IiD" type="number" class="form-control" @bind="@NewPatient.ID">
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <div class="offset-6 col-8">
+            <button name="submit" type="submit" class="btn btn-primary" @onclick="InsertNewPatient">Submit</button>
+        </div>
+    </div>
+
+}
+else
+{
+    // searchbar
+    <div>
+        <input type="text" placeholder="Enter Patient Name" @bind="findName" />
+        <button class="btn btn-primary" @onclick="FindPatients">Find Patients</button>
+        <button class="btn btn-primary" @onclick="ShowPatients">Clear Search</button>
+    </div>
+
+    <div class="form-group row">
+        <div class="offset-8 col-9">
+            <button name="submit" type="submit" class="btn btn-primary" @onclick="ShowCreateForm">Add a New Patient</button>
+        </div>
+    </div>
+
+    @if (@ReadPatients is not null && @ReadPatients.Count > 0)
+    {
+        // display
+
+
+        <div class="table-responsive">
+            <table class="table table-striped table-hover table-bordered table-light border-dark">
+                <thead>
+                    <tr>
+                        <th scope="col">HealthCardNum</th>
+                        <th scope="col">Patient Name</th>
+                        <th scope="col">PhoneNumber</th>
+                        <th scope="col">InsuranceAgencyID</th>
+                        <th scope="col">Edit</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+
+                    @foreach (var Patient in @ReadPatients)
+                    {
+                        @if (!@EditRecord)
+                        {
+                            <tr>
+                                <th scope="row">@Patient.HealthCardNum</th>
+                                <td>@Patient.PatientFullName</td>
+                                <td>@Patient.PhoneNumber</td>
+                                <td>@Patient.ID</td>
+                                <td>
+                                    <button name="submit" type="submit" class="btn btn-primary" @onclick="() => ShowEditForm(Patient)">Edit</button>
+                                </td>
+                                <td></td>
+                            </tr>
+                        }
+
+                        else
+                        {
+
+                            if (@PatientToUpdate is not null && PatientToUpdate.HealthCardNum == @Patient.HealthCardNum)
+                            {
+
+
+
+                                <tr>
+                                    <th scope="row">@Patient.HealthCardNum</th>
+                                    <td><input id="ID" name="ID" type="number" class="form-control" @bind="@PatientToUpdate.HealthCardNum" /></td>
+                                    <td><input id="name" name="name" type="text" class="form-control" @bind="@PatientToUpdate.PatientFullName" /></td>
+                                    <td><input id="PhoneNumber" name="PhoneNumber" type="text" class="form-control" @bind="@PatientToUpdate.PhoneNumber" /></td>
+                                    <td><input id="Iid" name="IiD" type="number" class="form-control" @bind="@PatientToUpdate.ID" /></td>
+                                    <td> <button name="submit" type="submit" class="btn btn-primary" @onclick="@EditPatient">Save</button></td>
+                                    <td>
+                                        <button name="submit" type="submit" class="btn btn-primary" @onclick="() => DeletePatient(Patient)">Delete</button>
+                                    </td>
+                                </tr>
+
+
+                            }
+                            else
+                            {
+                                <tr>
+                                    <th scope="row">@Patient.HealthCardNum</th>
+                                    <td>@Patient.PatientFullName</td>
+                                    <td>@Patient.PhoneNumber</td>
+                                    <td>@Patient.ID</td>
+                                    <td>
+                                        <button name="submit" type="submit" class="btn btn-primary" @onclick="() => ShowEditForm(Patient)">Edit</button>
+                                    </td>
+                                    <td></td>
+                                </tr>
+
+
+                            }
+
+
+
+
+
+
+
+                        }
+
+                    }
+                </tbody>
+            </table>
+        </div>
+
+    }
+
+}
+
+@code {
+
+}
