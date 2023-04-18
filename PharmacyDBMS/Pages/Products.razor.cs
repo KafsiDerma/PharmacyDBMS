@@ -42,10 +42,10 @@ namespace PharmacyDBMS.Pages
 
             if (NewProduct is not null)
             {
+                Supplier newSupplier = new Supplier { BusinessID = 9999 }; //instantiate, you can edit this later
+                NewProduct.Supplier = newSupplier;
 
 
-
-                
                 _context?.Product.Add(NewProduct);
                 _context?.SaveChangesAsync();
             }
