@@ -20,7 +20,9 @@ namespace PharmacyDBMS.Data
         public int Position { get; set; }
         public string? supervisor { get; set; }
 
-
-
+        internal static List<Employee> Where(Func<object, bool> value)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
